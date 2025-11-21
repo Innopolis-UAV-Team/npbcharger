@@ -76,18 +76,21 @@ class NPB1700:
             sys.exit(1)
 
 
-    def spin (self, msg: can.Message) -> can.Message:
+    def spin (self, msg: can.Message, have_responce:bool = True) -> can.Message:
         self.__canBus.send(msg)
         print(f"Message sent on {self.__canBus.channel_info}")
-        recMsg: can.Message = self.__canBus.recv(timeout=1.0)
-        if recMsg is not None:
-            # For debug purposes
-            # print(f"Message received on {self.__canBus.channel_info}")
-            return recMsg
-        return can.Message(error_state_indicator=True)
+        if (have_responce):
+            recMsg: can.Message = self.__canBus.recv(timeout=2.0)
+            if recMsg is not None:
+                # For debug purposes
+                # print(f"Message received on {self.__canBus.channel_info}")
+                return recMsg
+            return can.Message(error_state_indicator=True)
+        return can.Message()
             
     def _createMsg (self, command:NPB1700Commands, params:bytearray = bytearray()) -> can.Message:
-        dlc:int = len(command.value)
+        dlc:int = len(command.value) + len(params)
+        print (dlc)
         data: bytearray = command.value + params
         return can.Message(arbitration_id=self.__id, dlc=dlc, data=data, is_extended_id=True, check=True)
 
@@ -102,8 +105,8 @@ class NPB1700:
         return recMsg
     
     def write (self, command:NPB1700Commands, params:bytearray) -> can.Message:
-        canMsg: can.Message = self._createMsg(command)
-        recMsg: can.Message = self.spin(canMsg)
+        canMsg: can.Message = self._createMsg(command, params)
+        recMsg: can.Message = self.spin(canMsg, False)
         if recMsg.error_state_indicator == True:
             raise NPBCommunicationError
         return recMsg
