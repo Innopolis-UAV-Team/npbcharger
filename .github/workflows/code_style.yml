@@ -26,4 +26,4 @@ jobs:
 
     - name: Run Pylint
       run: |
-        pylint --disable=C0114,C0115,C0116 --fail-under=8.0 npb_can_interface.py direct_can_usb.py
+        pylint disable= C0114, C0116, C0115, R0903,  --fail-under=8.0 src/NPB-1700/npb_сommunication.py src/NPB-1700/direct_can_usb.py
