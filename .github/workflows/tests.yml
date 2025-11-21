@@ -29,12 +29,13 @@ jobs:
 
     - name: Run Smoke Test (Import Check)
       run: |
-        python -c "import npb_can_interface; print('Import successful')"
+        cd src/NPB-1700
+        python -c "import npb_communication; print('Import successful')"
         python -c "
-        import npb_can_interface;
+        import npb_communication;
         import can.exceptions # Import the exception class
         try:
-            npb = npb_can_interface.NPB1700('/dev/null') # Use a dummy path
+            npb = npb_communication.NPB1700('/dev/null') # Use a dummy path
             print('ERROR: Instance creation succeeded unexpectedly. Test failed.')
             exit(1)
         except can.exceptions.CanInitializationError as e:
