@@ -115,6 +115,3 @@ class NPBCommunicationError(Exception):
     pass
 
 
-npb = NPB1700 ("/dev/ttyACMt")
-print (npb.read(NPB1700Commands.FAULT_STATUS))
-
