@@ -24,9 +24,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint python-can
         pip install pylint
-        # Install package in development mode
-        pip install -e .
 
     - name: Run Pylint
       run: |
-        pylint --disable=C0114,C0116,C0115,R0903,E0401 --fail-under=8.0 src/NPB_1700/
+        pylint --disable=C0114,C0116,C0115,R0903,E0401 \
+               --init-hook="import sys; sys.path.append('src')" \
+               --fail-under=8.0 src/NPB_1700/
