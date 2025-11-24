@@ -26,4 +26,4 @@ jobs:
 
     - name: Run Pylint
       run: |
-        pylint --disable=C0114,C0116,C0115,R0903  --fail-under=8.0 src/NPB-1700/
+        pylint --disable=C0114,C0116,C0115,R0903  --fail-under=8.0 src/NPB_1700/
