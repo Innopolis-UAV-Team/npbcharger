@@ -6,7 +6,6 @@ from exceptions import NPBCommunicationError
 import sys
 
 
-
 class NPB1700:
     # Private can communication related
     __interface: str = "slcan"
@@ -43,7 +42,7 @@ class NPB1700:
         # For debug purposes
         # print(f"Message sent on {self.__canBus.channel_info}")
         if have_responce:
-            recMsg: can.Message | None  = self.__canBus.recv(timeout=2.0)
+            recMsg: can.Message | None = self.__canBus.recv(timeout=2.0)
             if recMsg is not None:
                 # For debug purposes
                 # print(f"Message received on {self.__canBus.channel_info}")

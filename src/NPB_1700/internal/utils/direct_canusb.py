@@ -2,14 +2,16 @@ import serial
 import time
 
 # --- Configuration ---
-CANUSB_PORT = '/dev/ttyACM0' # Change this to your CANUSB port
+CANUSB_PORT = '/dev/ttyACM0'  # Change this to your CANUSB port
 BAUDRATE = 1000000
 READ_TIMEOUT = 2.0
+
 
 def send_command(ser, command_str):
     """Sends a command string followed by [CR]."""
     ser.write((command_str + '\r').encode('ascii'))
     print(f"Sent: {command_str}")
+
 
 def read_response(ser, timeout=READ_TIMEOUT):
     """Reads a response ending with [CR] or timeout."""
@@ -23,10 +25,12 @@ def read_response(ser, timeout=READ_TIMEOUT):
                 break
     return response.strip() if response else None
 
+
 def main():
     try:
         print(f"Connecting to {CANUSB_PORT}...")
-        ser = serial.Serial(CANUSB_PORT, baudrate=BAUDRATE, timeout=READ_TIMEOUT)
+        ser = serial.Serial(CANUSB_PORT, baudrate=BAUDRATE,
+                            timeout=READ_TIMEOUT)
         print("Connected.")
 
         # --- Initialize CANUSB ---
@@ -60,10 +64,10 @@ def main():
         # Command: little endian. See docs for command codes
         # CANUSB Format: Tiiiiiiiildd... -> T000C0103[command len (2) + params len][params]
         request_id = "000C0103"
-        data_cmd = "b0000001" # Одинаковая команда
+        data_cmd = "b0000001"  # Одинаковая команда
         dlc = "3"
         request_cmd = f"T{request_id}{dlc}{data_cmd}"
-        
+
         send_command(ser, request_cmd)
         response = read_response(ser)
         if response != 'Z':
@@ -73,26 +77,26 @@ def main():
 
         # --- Listen for Reply ---
         print("Listening for reply...")
-        reply = read_response(ser, timeout=1.0) # Listen for 1 sec for reply
+        reply = read_response(ser, timeout=1.0)  # Listen for 1 sec for reply
         if reply:
             print(f"Received Raw Reply: {repr(reply)}")
             # Parse reply: Expected format Tiiiiiiiilldd... where l=dlc, dd=data
             # On practice if len <= 0xF then it will be: Tiiiiiiiildd...
             if reply.startswith('T') and len(reply) >= 12:
-                 try:
-                     # Yet hardcoded on examples whith data len <= F and param len <= 4
-                     id_hex = reply[1:9]
-                     dlc_hex = reply[9:10]
-                     data_hex = reply[14:18] # Remove trailing [CR]
+                try:
+                    # Yet hardcoded on examples whith data len <= F and param len <= 4
+                    id_hex = reply[1:9]
+                    dlc_hex = reply[9:10]
+                    data_hex = reply[14:18]  # Remove trailing [CR]
 
-                     print(f"  - ID (Hex): 0x{id_hex}")
-                     print(f"  - DLC: {int(dlc_hex, 16)}")
-                     print(f"  - Raw Data (Hex): {data_hex}")
+                    print(f"  - ID (Hex): 0x{id_hex}")
+                    print(f"  - DLC: {int(dlc_hex, 16)}")
+                    print(f"  - Raw Data (Hex): {data_hex}")
 
-                 except ValueError:
-                     print("  -> Error parsing reply data.")
+                except ValueError:
+                    print("  -> Error parsing reply data.")
             else:
-                 print("  -> Unexpected reply format.")
+                print("  -> Unexpected reply format.")
         else:
             print("No reply received within timeout.")
 
@@ -104,11 +108,12 @@ def main():
         try:
             # Close CAN channel on CANUSB
             send_command(ser, 'C')
-            read_response(ser) # Read the response to 'C'
+            read_response(ser)  # Read the response to 'C'
             ser.close()
             print("Serial connection closed.")
         except:
             pass
+
 
 if __name__ == "__main__":
     main()

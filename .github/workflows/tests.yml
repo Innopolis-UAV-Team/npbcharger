@@ -27,29 +27,28 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Smoke Test (Import Check)
+
+    - name: Run Parser Tests
       run: |
-        cd src/NPB-1700
-        python -c "import npb_communication; print('Import successful')"
+        echo "Running parser-specific tests..."
+        cd tests
+        python -m unittest test_electric_parser.py -v
+        # python -m unittest test_fault_status.py -v
+        # python -m unittest test_charge_status.py -v
+
+    - name: Run Import Tests
+      run: |
+        echo "Testing package imports..."
+        cd src
         python -c "
-        import npb_communication;
-        import can.exceptions # Import the exception class
         try:
-            npb = npb_communication.NPB1700('/dev/null') # Use a dummy path
-            print('ERROR: Instance creation succeeded unexpectedly. Test failed.')
-            exit(1)
-        except can.exceptions.CanInitializationError as e:
-            print(f'SUCCESS: Instance creation failed as expected (due to connection): {e}. Test passed.')
-        except Exception as e:
-            print(f'ERROR: Instance creation failed with an unexpected error: {e}. Test failed.')
+            from NPB_1700.parsers.electricData import ElectricDataParser
+            from NPB_1700.parsers.fault_status import FaultStatusParser
+            from NPB_1700.parsers.charge_status import ChargeStatusParser
+            from NPB_1700.parsers.factory import ParserFactory
+            from NPB_1700.commands import NPB1700Commands
+            print('All parser imports successful')
+        except ImportError as e:
+            print(f'Import failed: {e}')
             exit(1)
         "
-
-    - name: Run Unit Tests (Placeholder)
-      run: |
-        echo "Running unit tests (placeholder)..."
-
-    - name: Run Integration Tests (Placeholder)
-      run: |
-        echo "Running integration tests (placeholder)..."
-        # python -m pytest tests/integration/ -v

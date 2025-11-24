@@ -3,20 +3,23 @@ from typing import Any, Dict, List
 from can import Message
 from .base import BaseParser
 
+
 class FaultStatus(Flag):
     """Fault status flags using Python Flag enum for bitwise operations"""
     RESERVED = 0
     OTP = 1 << 1        # Over temperature protection
-    OVP = 1 << 2        # Output over voltage protection  
+    OVP = 1 << 2        # Output over voltage protection
     OCP = 1 << 3        # Output over current protection
     SHORT = 1 << 4      # Output short circuit protection
     AC_FAIL = 1 << 5    # AC abnormal flag
     OP_OFF = 1 << 6     # Output turned off
     HI_TEMP = 1 << 7    # Internal high temperature protection
 
+
 class FaultSeverity(Enum):
     CRITICAL = "critical"
     INFO = "info"
+
 
 class FaultStatusParser(BaseParser):
     # Fault metadata took from manual
@@ -27,19 +30,19 @@ class FaultStatusParser(BaseParser):
             "severity": FaultSeverity.CRITICAL,
         },
         FaultStatus.OVP: {
-            "name": "Over Voltage Protection", 
+            "name": "Over Voltage Protection",
             "description": "Output voltage exceeded maximum limit",
             "severity": FaultSeverity.CRITICAL,
         },
         FaultStatus.OCP: {
             "name": "Over Current Protection",
-            "description": "Output current exceeded maximum limit", 
+            "description": "Output current exceeded maximum limit",
             "severity": FaultSeverity.CRITICAL,
         },
         FaultStatus.SHORT: {
             "name": "Short Circuit Protection",
             "description": "Output short circuit detected",
-            "severity": FaultSeverity.CRITICAL, 
+            "severity": FaultSeverity.CRITICAL,
         },
         FaultStatus.AC_FAIL: {
             "name": "AC Input Failure",
@@ -47,7 +50,7 @@ class FaultStatusParser(BaseParser):
             "severity": FaultSeverity.CRITICAL,
         },
         FaultStatus.OP_OFF: {
-            "name": "Output Disabled", 
+            "name": "Output Disabled",
             "description": "Output is turned off due to some issue, look chg_status to elaborate",
             "severity": FaultSeverity.INFO,
         },
@@ -67,15 +70,15 @@ class FaultStatusParser(BaseParser):
         rawDataAddress = msg.data
         if len(rawDataAddress) < 4:
             raise ValueError("Fault status data too short")
-        
+
         rawData = rawDataAddress[2:4]
 
         # Convert to integer (little-endian)
         status_word = int.from_bytes(rawData, byteorder='little')
         fault_status = FaultStatus(status_word)
-        
+
         active_faults = self._get_active_faults(fault_status)
-        
+
         return {
             "raw_value": status_word,
             "fault_status": fault_status,
@@ -87,7 +90,7 @@ class FaultStatusParser(BaseParser):
     def _get_active_faults(self, fault_status: FaultStatus) -> List[Dict]:
         """Extract active faults with metadata"""
         active_faults = []
-        
+
         for fault in FaultStatus:
             if fault in fault_status:
                 metadata = self.FAULT_METADATA.get(fault, {})
@@ -98,13 +101,13 @@ class FaultStatusParser(BaseParser):
                     "severity": metadata.get("severity"),
                     "bit_position": fault.value.bit_length() - 1 if fault.value > 0 else 0
                 })
-        
+
         return active_faults
 
     def _has_critical_faults(self, active_faults: List[Dict]) -> bool:
         """Check if any critical faults are active"""
         return any(
-            fault["severity"] == FaultSeverity.CRITICAL 
+            fault["severity"] == FaultSeverity.CRITICAL
             for fault in active_faults
         )
 
