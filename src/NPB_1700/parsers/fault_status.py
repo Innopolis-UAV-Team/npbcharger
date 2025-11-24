@@ -67,14 +67,14 @@ class FaultStatusParser(BaseParser):
         Returns:
             Dict with fault status, active faults, and summary
         """
-        rawDataAddress = msg.data
-        if len(rawDataAddress) < 4:
+        raw_data_address = msg.data
+        if len(raw_data_address) < 4:
             raise ValueError("Fault status data too short")
 
-        rawData = rawDataAddress[2:4]
+        raw_data = raw_data_address[2:4]
 
         # Convert to integer (little-endian)
-        status_word = int.from_bytes(rawData, byteorder='little')
+        status_word = int.from_bytes(raw_data, byteorder='little')
         fault_status = FaultStatus(status_word)
 
         active_faults = self._get_active_faults(fault_status)
