@@ -79,7 +79,7 @@ class ChargeStatusParser(BaseParser):
         }
     }
 
-    def parseRead(self, msg: Message) -> Dict:
+    def parse_read(self, msg: Message) -> Dict:
         """Parse charge status response"""
         if len(msg.data) < 4:
             raise ValueError("Charge status data too short")
@@ -128,5 +128,5 @@ class ChargeStatusParser(BaseParser):
         }
         return any(mode in status for mode in charging_modes)
 
-    def parseWrite(self, data: Any) -> bytearray:
+    def parse_write(self, data: Any) -> bytearray:
         raise NotImplementedError("Charge status is read-only")

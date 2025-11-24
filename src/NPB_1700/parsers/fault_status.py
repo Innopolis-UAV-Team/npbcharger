@@ -61,7 +61,7 @@ class FaultStatusParser(BaseParser):
         }
     }
 
-    def parseRead(self, msg: Message) -> Dict:
+    def parse_read(self, msg: Message) -> Dict:
         """
         Parse fault status response into structured data
         Returns:
@@ -111,5 +111,5 @@ class FaultStatusParser(BaseParser):
             for fault in active_faults
         )
 
-    def parseWrite(self, data: Any) -> bytearray:
+    def parse_write(self, data: Any) -> bytearray:
         raise NotImplementedError("Fault status is read only")

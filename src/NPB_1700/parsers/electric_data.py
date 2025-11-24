@@ -12,17 +12,17 @@ class ElectricDataParser(BaseParser):
         self.scaling_factor = scaling_factor
         self.constraints = constraints or {}
 
-    def parseRead(self, msg: Message) -> float:
-        rawDataAddress = msg.data
-        if len(rawDataAddress) < 4:
+    def parse_read(self, msg: Message) -> float:
+        raw_data_address = msg.data
+        if len(raw_data_address) < 4:
             raise ValueError("Fault status data too short")
 
-        rawData = rawDataAddress[2:4]
+        raw_data = raw_data_address[2:4]
 
-        raw_value = int.from_bytes(rawData, byteorder='little')
+        raw_value = int.from_bytes(raw_data, byteorder='little')
         return raw_value * self.scaling_factor
 
-    def parseWrite(self, data: float) -> bytearray:
+    def parse_write(self, data: float) -> bytearray:
         min_v = self.constraints.get('min')
         max_v = self.constraints.get('max')
 

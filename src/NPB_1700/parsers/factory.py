@@ -1,8 +1,8 @@
-from .electricData import ElectricDataParser
-from .fault_status import FaultStatusParser
-from .chg_status import ChargeStatusParser
-from .base import BaseParser
 from commands import NPB1700Commands
+from .electric_data import ElectricDataParser
+from .fault_status import FaultStatusParser
+from .charge_status import ChargeStatusParser
+from .base import BaseParser
 
 
 class ParserFactory:

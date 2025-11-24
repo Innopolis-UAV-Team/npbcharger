@@ -42,7 +42,7 @@ jobs:
         cd src
         python -c "
         try:
-            from NPB_1700.parsers.electricData import ElectricDataParser
+            from NPB_1700.parsers.electric_data import ElectricDataParser
             from NPB_1700.parsers.fault_status import FaultStatusParser
             from NPB_1700.parsers.charge_status import ChargeStatusParser
             from NPB_1700.parsers.factory import ParserFactory
