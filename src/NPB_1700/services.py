@@ -1,5 +1,5 @@
 from driver import NPB1700
-from parsers.factory import ParserFactory
+from NPB_1700.parsers.factories.base_factory import ParserFactory
 from commands import NPB1700Commands
 from parsers.base import BaseParser
 

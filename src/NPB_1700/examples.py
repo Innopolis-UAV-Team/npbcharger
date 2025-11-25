@@ -15,9 +15,9 @@ print(service.read_parameter(NPB1700Commands.CURVE_FV))
 
 #print (service.write_parameter(NPB1700Commands.CURVE_CC, 12))
 #print (service.write_parameter(NPB1700Commands.CURVE_CV, 32))
-#print (service.write_parameter(NPB1700Commands.CURVE_FV, 29.8))
+print (service.write_parameter(NPB1700Commands.CURVE_FV, 27.6))
 
 
-#print(service.read_parameter(NPB1700Commands.CURVE_CC))
-#print(service.read_parameter(NPB1700Commands.CURVE_CV))
-#print(service.read_parameter(NPB1700Commands.CURVE_FV))
+print(service.read_parameter(NPB1700Commands.CURVE_CC))
+print(service.read_parameter(NPB1700Commands.CURVE_CV))
+print(service.read_parameter(NPB1700Commands.CURVE_FV))

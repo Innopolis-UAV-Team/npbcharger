@@ -33,7 +33,7 @@ jobs:
         echo "Running parser-specific tests..."
         cd tests
         python -m unittest test_electric_parser.py -v
-        # python -m unittest test_fault_status.py -v
+        python -m unittest test_fault_status_parser.py -v
         # python -m unittest test_charge_status.py -v
 
     - name: Run Import Tests
