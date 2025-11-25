@@ -1,5 +1,5 @@
 from enum import Flag
-from .factories.status_factory import StatusParserFactory
+from .factories.status_factory import StatusParserFactory, Severity
 
 class ChargeStatus(Flag):
     """Charging status flags"""
@@ -19,52 +19,52 @@ CHARGE_STATUS_CONFIG = {
     ChargeStatus.NTCER: {
         "name": "NTC Short Circuit",
         "description": "Temperature compensation circuit shorted",
-        "severity": "ERROR"
+        "severity": Severity.CRITICAL
     },
     ChargeStatus.BTNC: {
         "name": "No Battery", 
         "description": "Battery not detected",
-        "severity": "ERROR"
+        "severity": Severity.CRITICAL
     },
     ChargeStatus.CCTOF: {
         "name": "CC Mode Timeout",
         "description": "Constant current charging timed out", 
-        "severity": "WARNING"
+        "severity": Severity.WARNING
     },
     ChargeStatus.CVTOF: {
         "name": "CV Mode Timeout",
         "description": "Constant voltage charging timed out",
-        "severity": "WARNING"
+        "severity": Severity.WARNING
     },
     ChargeStatus.FVTOF: {
         "name": "Float Mode Timeout", 
         "description": "Float charging timed out",
-        "severity": "WARNING"
+        "severity": Severity.WARNING
     },
     ChargeStatus.FULLM: {
         "name": "Fully Charged",
         "description": "Battery charging complete",
-        "severity": "INFO"
+        "severity": Severity.INFO
     },
     ChargeStatus.CCM: {
         "name": "Constant Current Mode",
         "description": "Charging with constant current",
-        "severity": "INFO"
+        "severity": Severity.INFO
     },
     ChargeStatus.CVM: {
         "name": "Constant Voltage Mode", 
         "description": "Charging with constant voltage",
-        "severity": "INFO"
+        "severity": Severity.INFO
     },
     ChargeStatus.FVM: {
         "name": "Float Mode",
         "description": "Maintaining battery with float voltage",
-        "severity": "INFO"
+        "severity": Severity.INFO
     },
     ChargeStatus.WAKEUP_STOP: {
         "name": "Wakeup Active",
         "description": "Battery wakeup sequence in progress", 
-        "severity": "INFO"
+        "severity": Severity.INFO
     }
 }
 

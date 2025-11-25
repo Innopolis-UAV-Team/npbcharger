@@ -16,20 +16,3 @@ class BaseParser(ABC):
     def parse_write(self, data: Any) -> bytearray:
         """Convert data to bytearray for sending"""
         pass
-
-
-class StatusParser(BaseParser):
-    @abstractmethod
-    def parse_read(self, msg: Message) -> Any:
-        """Parse response message into meaningful data"""
-        pass
-
-    @abstractmethod
-    def parse_write(self, data: Any) -> bytearray:
-        """Convert data to bytearray for sending"""
-        pass
-
-    @abstractmethod
-    def _get_active_states(self, status: Flag) -> List[Dict]:
-        """get all states that are '1'"""
-        pass

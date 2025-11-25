@@ -1,0 +1,1 @@
+# NOTE: for status parsers: prefer to use flags when there is no bitfields in configuration description.

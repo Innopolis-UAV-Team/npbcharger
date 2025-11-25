@@ -5,8 +5,8 @@ from can import Message
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-from NPB_1700.parsers.fault_status import FaultStatusParser, FaultStatus, FaultSeverity
-
+from NPB_1700.parsers.fault_status import FaultStatusParser, FaultStatus
+from NPB_1700.parsers.factories.status_factory import Severity
 
 class TestFaultStatusParser(unittest.TestCase):
     
@@ -32,7 +32,7 @@ class TestFaultStatusParser(unittest.TestCase):
         msg = Message(data=bytearray(b'\x40\x00\x02\x00'))
         result = self.parser.parse_read(msg)
         
-        self.assertEqual(result["raw_value"], 2)  # Should be 2, not 1
+        self.assertEqual(result["raw_value"], 2)
         self.assertTrue(FaultStatus.OTP in result["status"])
         self.assertEqual(len(result["active_states"]), 1)
         self.assertTrue(result["has_critical"])  # OTP is CRITICAL
@@ -41,7 +41,7 @@ class TestFaultStatusParser(unittest.TestCase):
         active_state = result["active_states"][0]
         self.assertEqual(active_state["state"], FaultStatus.OTP)
         self.assertEqual(active_state["name"], "Over Temperature Protection")
-        self.assertEqual(active_state["severity"], FaultSeverity.CRITICAL)
+        self.assertEqual(active_state["severity"], Severity.CRITICAL)
     
     def test_parse_read_output_off(self):
         # Simulate OP_OFF fault (bit 6 = 0x0040)
@@ -55,7 +55,7 @@ class TestFaultStatusParser(unittest.TestCase):
         
         # Check that OP_OFF is correctly identified as INFO severity
         op_off_state = next(s for s in result["active_states"] if s["state"] == FaultStatus.OP_OFF)
-        self.assertEqual(op_off_state["severity"], FaultSeverity.INFO)
+        self.assertEqual(op_off_state["severity"], Severity.INFO)
     
     def test_parse_read_multiple_faults(self):
         """Test parsing when multiple faults are active"""
@@ -70,7 +70,7 @@ class TestFaultStatusParser(unittest.TestCase):
         self.assertTrue(result["has_critical"])  # Both are CRITICAL
         
         # Verify both faults are critical
-        critical_states = [s for s in result["active_states"] if s["severity"] == FaultSeverity.CRITICAL]
+        critical_states = [s for s in result["active_states"] if s["severity"] == Severity.CRITICAL]
         self.assertEqual(len(critical_states), 2)
     
     def test_active_states_metadata_structure(self):
@@ -88,13 +88,13 @@ class TestFaultStatusParser(unittest.TestCase):
         otp_state = next(s for s in active_states if s["state"] == FaultStatus.OTP)
         self.assertEqual(otp_state["name"], "Over Temperature Protection")
         self.assertEqual(otp_state["description"], "Internal temperature abnormal")
-        self.assertEqual(otp_state["severity"], FaultSeverity.CRITICAL)
+        self.assertEqual(otp_state["severity"], Severity.CRITICAL)
         
         # Check OP_OFF fault metadata
         op_off_state = next(s for s in active_states if s["state"] == FaultStatus.OP_OFF)
         self.assertEqual(op_off_state["name"], "Output Disabled")
         self.assertEqual(op_off_state["description"], "Output is turned off")
-        self.assertEqual(op_off_state["severity"], FaultSeverity.INFO)
+        self.assertEqual(op_off_state["severity"], Severity.INFO)
     
     def test_severity_detection_methods(self):
         """Test the severity detection helper methods"""
