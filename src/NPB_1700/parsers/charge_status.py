@@ -1,5 +1,5 @@
 from enum import Flag
-from .factories.status_factory import StatusParserFactory, Severity
+from .factories.status_factory import StatusParserFactory, Severity, Polarity
 
 class ChargeStatus(Flag):
     """Charging status flags"""
@@ -19,52 +19,62 @@ CHARGE_STATUS_CONFIG = {
     ChargeStatus.NTCER: {
         "name": "NTC Short Circuit",
         "description": "Temperature compensation circuit shorted",
-        "severity": Severity.CRITICAL
+        "severity": Severity.CRITICAL,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.BTNC: {
         "name": "No Battery", 
         "description": "Battery not detected",
-        "severity": Severity.CRITICAL
+        "severity": Severity.CRITICAL,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.CCTOF: {
         "name": "CC Mode Timeout",
         "description": "Constant current charging timed out", 
-        "severity": Severity.WARNING
+        "severity": Severity.WARNING,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.CVTOF: {
         "name": "CV Mode Timeout",
         "description": "Constant voltage charging timed out",
-        "severity": Severity.WARNING
+        "severity": Severity.WARNING,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.FVTOF: {
         "name": "Float Mode Timeout", 
         "description": "Float charging timed out",
-        "severity": Severity.WARNING
+        "severity": Severity.WARNING,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.FULLM: {
         "name": "Fully Charged",
         "description": "Battery charging complete",
-        "severity": Severity.INFO
+        "severity": Severity.INFO,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.CCM: {
         "name": "Constant Current Mode",
         "description": "Charging with constant current",
-        "severity": Severity.INFO
+        "severity": Severity.INFO,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.CVM: {
         "name": "Constant Voltage Mode", 
         "description": "Charging with constant voltage",
-        "severity": Severity.INFO
+        "severity": Severity.INFO,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.FVM: {
         "name": "Float Mode",
         "description": "Maintaining battery with float voltage",
-        "severity": Severity.INFO
+        "severity": Severity.INFO,
+        "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.WAKEUP_STOP: {
         "name": "Wakeup Active",
         "description": "Battery wakeup sequence in progress", 
-        "severity": Severity.INFO
+        "severity": Severity.INFO,
+        "polarity": Polarity.ACTIVE_HIGH,
     }
 }
 

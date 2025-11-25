@@ -4,20 +4,20 @@ from commands import NPB1700Commands
 
 npb = NPB1700("/dev/ttyACM0")
 service = NPB1700Service(npb)
-print(service.read_parameter(NPB1700Commands.FAULT_STATUS))
-print(service.read_parameter(NPB1700Commands.CHG_STATUS))
-print (service.read_parameter(NPB1700Commands.CURVE_CONFIG))
 
-print(service.read_parameter(NPB1700Commands.CURVE_CC))
-print(service.read_parameter(NPB1700Commands.CURVE_CV))
-print(service.read_parameter(NPB1700Commands.CURVE_FV))
+print(service.get_fault_status())
+print(service.get_charge_status())
+print (service.get_curve_config())
+print (service.get_system_config())
+print (service.get_system_status())
 
-
-#print (service.write_parameter(NPB1700Commands.CURVE_CC, 12))
-#print (service.write_parameter(NPB1700Commands.CURVE_CV, 32))
-#print (service.write_parameter(NPB1700Commands.CURVE_FV, 27.6))
+print (service.get_voltage_current())
 
 
-#print(service.read_parameter(NPB1700Commands.CURVE_CC))
-#print(service.read_parameter(NPB1700Commands.CURVE_CV))
-#print(service.read_parameter(NPB1700Commands.CURVE_FV))
+print(service.get_constant_voltage_curve())
+print(service.get_constant_current_curve())
+print(service.get_float_voltage_curve())
+
+#print(service.get_constant_voltage())
+#print(service.get_constant_current())
+

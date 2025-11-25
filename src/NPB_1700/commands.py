@@ -20,9 +20,9 @@ class NPB1700Commands(enum.Enum):
     # R, 2 - Input voltage read value
     # READ_VIN = bytearray([0x50, 0x00])
     # R, 2 - Output voltage read value (F=0.01)
-    # READ_VOUT = bytearray([0x60, 0x00])
+    READ_VOUT = bytearray([0x60, 0x00])
     # R, 2 - Output current read value (F=0.01)
-    # READ_IOUT = bytearray([0x61, 0x00])
+    READ_IOUT = bytearray([0x61, 0x00])
     # R, 2 - Internal ambient temperature (F=0.1)
     READ_TEMPERATURE_1 = bytearray([0x62, 0x00])
 

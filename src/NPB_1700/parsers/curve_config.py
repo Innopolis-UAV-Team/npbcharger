@@ -1,35 +1,40 @@
-from .factories.status_factory import StatusParserFactory, FieldType
+from .factories.config_factory import FieldType, ConfigParserFactory
 
-# Configuration for charge settings - no Flag enum needed!
 CURVE_CONFIG = {
     # High byte fields
-    "constant_voltage_timeout_enable": {
+    "CCTOE": {
         "type": FieldType.FLAG,
-        "bit": 8,  # Bit 0 of high byte (byte 1, bit 0)
+        "bit": 8,  # Bit 0 of high byte
         "name": "Constant Voltage Timeout Enable",
         "description": "Constant voltage stage timeout indication enable"
     },
-    "constant_current_timeout_enable": {
+    "CVTOE": {
         "type": FieldType.FLAG, 
-        "bit": 9,  # Bit 1 of high byte (byte 1, bit 1)
+        "bit": 9,  # Bit 1 of high byte
         "name": "Constant Current Timeout Enable",
         "description": "Constant current stage timeout indication enable"
     },
-    "restart_charge_enable": {
+    "FVTOE": {
+        "type": FieldType.FLAG, 
+        "bit": 10,  # Bit 1 of high byte
+        "name": "Floating Voltage Timeout Enable",
+        "description": "Floating voltage stage timeout indication enable"
+    },
+    "RSTE": {
         "type": FieldType.FLAG,
-        "bit": 11,  # Bit 3 of high byte (byte 1, bit 3)
+        "bit": 11,  # Bit 3 of high byte
         "name": "Restart Charge Enable", 
         "description": "Restart to charge after the battery is full enable"
     },
-    "cv_timeout_status_selection": {
+    "CVTSSE": {
         "type": FieldType.FLAG,
-        "bit": 13,  # Bit 5 of high byte (byte 1, bit 5)
+        "bit": 13,  # Bit 5 of high byte
         "name": "CV Timeout Status Selection",
         "description": "CV Timeout Status Selection Enable"
     },
     
     # Low byte fields  
-    "charge_curve_setting": {
+    "CUVS": {
         "type": FieldType.BITS,
         "mask": 0x03,  # Bits 0-1 of low byte
         "shift": 0,
@@ -42,7 +47,7 @@ CURVE_CONFIG = {
             3: "Preset charging curve #3"
         }
     },
-    "temperature_compensation": {
+    "TCS": {
         "type": FieldType.BITS,
         "mask": 0x0C,  # Bits 2-3 of low byte
         "shift": 2,
@@ -55,7 +60,7 @@ CURVE_CONFIG = {
             3: "-5mV/°C/cell"
         }
     },
-    "charge_curve_enable": {
+    "CUVE": {
         "type": FieldType.FLAG,
         "bit": 7,  # Bit 7 of low byte
         "name": "Charge Curve Enable",
@@ -63,9 +68,8 @@ CURVE_CONFIG = {
     }
 }
 
-# Create the parser - no Flag enum needed!
-CurveConfigParser = StatusParserFactory.create_parser(
+CurveConfigParser = ConfigParserFactory.create_parser(
     "CurveConfigParser",
-    CURVE_CONFIG
+    CURVE_CONFIG,
     # No enum_class parameter for field-based parsers
 )

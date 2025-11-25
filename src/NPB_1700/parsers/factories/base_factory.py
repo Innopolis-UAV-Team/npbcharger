@@ -11,14 +11,20 @@ class ParserFactory:
         from ..fault_status import FaultStatusParser
         from ..charge_status import ChargeStatusParser
         from ..curve_config import CurveConfigParser
+        from ..system_config import SystemConfigParser
+        from ..system_status import SystemStatusParser
 
         parsers: dict[NPB1700Commands, BaseParser] = {
             NPB1700Commands.CURVE_CC: ElectricDataParser(constraints={'min': 10.0, 'max': 50.0}),
+            NPB1700Commands.READ_IOUT: ElectricDataParser(constraints={'min': 10.0, 'max': 50.0}),
             NPB1700Commands.CURVE_CV: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}),
             NPB1700Commands.CURVE_FV: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}),
+            NPB1700Commands.READ_VOUT: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}),
             NPB1700Commands.FAULT_STATUS: FaultStatusParser(),
             NPB1700Commands.CHG_STATUS: ChargeStatusParser(),
             NPB1700Commands.CURVE_CONFIG: CurveConfigParser(),
+            NPB1700Commands.SYSTEM_CONFIG: SystemConfigParser(),
+            NPB1700Commands.SYSTEM_STATUS: SystemStatusParser(),
         }
         
         if command not in parsers:
