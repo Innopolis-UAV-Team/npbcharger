@@ -1,4 +1,3 @@
-# test_charge_status_parser.py
 import unittest
 from can import Message
 import sys

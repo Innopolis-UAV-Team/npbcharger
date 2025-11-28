@@ -35,6 +35,12 @@ class NPB1700Service:
         """Set float charge voltage"""
         self._write_electric(NPB1700Commands.CURVE_FV, voltage)
 
+    def set_operation_status(self, status: bool) -> None:
+        self._write_electric(NPB1700Commands.OPERATION, float(status))
+
+    def get_operation_status(self) -> bool:
+        return bool(self._read_electric(NPB1700Commands.OPERATION))
+    
     def get_float_voltage_curve(self) -> float:
         """Get float charge voltage"""
         return self._read_electric(NPB1700Commands.CURVE_FV)
@@ -42,6 +48,9 @@ class NPB1700Service:
     def get_constant_current(self) -> float:
         """Get constant charge current"""
         return self._read_electric(NPB1700Commands.READ_IOUT)
+    
+    def get_temperature_1 (self) -> float:
+        return self._read_electric(NPB1700Commands.READ_TEMPERATURE_1)
     
     def get_voltage_current(self) -> float:
         """Get voltage charge current"""

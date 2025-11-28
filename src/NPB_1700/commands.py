@@ -1,6 +1,6 @@
 import enum
 CURVE_F = 0.01
-
+COMMAND_LEN = 2
 
 class NPB1700Commands(enum.Enum):
     """CAN Command Codes for Mean Well NPB-1700 Series in Little Endian Format.
