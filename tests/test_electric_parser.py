@@ -4,7 +4,6 @@ import os
 from can import Message
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-
 from NPB_1700.parsers.electric_data import ElectricDataParser
 
 
