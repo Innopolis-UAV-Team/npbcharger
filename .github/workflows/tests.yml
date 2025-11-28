@@ -34,8 +34,10 @@ jobs:
         cd tests
         python -m unittest test_electric_parser.py -v
         python -m unittest test_fault_status_parser.py -v
-        # python -m unittest test_charge_status.py -v
-
+        python -m unittest test_charge_status.py -v
+        # python -m unittest test_system_config.py -v
+        # python -m unittest test_system_status.py -v
+        # python -m unittest test_curve_config.py -v
     - name: Run Import Tests
       run: |
         echo "Testing package imports..."

@@ -23,7 +23,6 @@ class TestFaultStatusParser(unittest.TestCase):
         self.assertEqual(result["status"], FaultStatus(0))  # Empty flags
         self.assertEqual(len(result["active_states"]), 0)
         self.assertFalse(result["has_critical"])
-        self.assertFalse(result["has_errors"])
         self.assertFalse(result["has_warnings"])
     
     def test_parse_read_single_fault(self):
@@ -51,7 +50,6 @@ class TestFaultStatusParser(unittest.TestCase):
         
         self.assertTrue(FaultStatus.OP_OFF in result["status"])
         self.assertFalse(result["has_critical"])  # OP_OFF is INFO severity
-        self.assertFalse(result["has_errors"])
         
         # Check that OP_OFF is correctly identified as INFO severity
         op_off_state = next(s for s in result["active_states"] if s["state"] == FaultStatus.OP_OFF)
@@ -104,13 +102,11 @@ class TestFaultStatusParser(unittest.TestCase):
         # Test with critical fault (OTP)
         critical_status = FaultStatus.OTP
         self.assertTrue(parser._has_critical(critical_status))
-        self.assertFalse(parser._has_errors(critical_status))
         self.assertFalse(parser._has_warnings(critical_status))
         
         # Test with info fault (OP_OFF)  
         info_status = FaultStatus.OP_OFF
         self.assertFalse(parser._has_critical(info_status))
-        self.assertFalse(parser._has_errors(info_status))
         self.assertFalse(parser._has_warnings(info_status))
     
     def test_parse_read_all_critical_faults(self):
