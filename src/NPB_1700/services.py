@@ -18,15 +18,13 @@ class NPB1700Service:
     def set_constant_current_curve(self, current: float) -> None:
         """Set constant charge current"""
         self._write_electric(NPB1700Commands.CURVE_CC, current)
-
     def get_constant_current_curve(self) -> float:
         """Get constant charge current"""
         return self._read_electric(NPB1700Commands.CURVE_CC)
-    
+
     def set_constant_voltage_curve(self, voltage: float) -> None:
         """Set constant charge voltage"""
         self._write_electric(NPB1700Commands.CURVE_CV, voltage)
-
     def get_constant_voltage_curve(self) -> float:
         """Get constant charge voltage"""
         return self._read_electric(NPB1700Commands.CURVE_CV)
@@ -34,27 +32,47 @@ class NPB1700Service:
     def set_float_voltage_curve(self, voltage: float) -> None:
         """Set float charge voltage"""
         self._write_electric(NPB1700Commands.CURVE_FV, voltage)
-
-    def set_operation_status(self, status: bool) -> None:
-        self._write_electric(NPB1700Commands.OPERATION, float(status))
-
-    def get_operation_status(self) -> bool:
-        return bool(self._read_electric(NPB1700Commands.OPERATION))
-    
     def get_float_voltage_curve(self) -> float:
         """Get float charge voltage"""
         return self._read_electric(NPB1700Commands.CURVE_FV)
+    
+    def set_operation_status(self, status: bool) -> None:
+        self._write_electric(NPB1700Commands.OPERATION, float(status))
+    def get_operation_status(self) -> bool:
+        return bool(self._read_electric(NPB1700Commands.OPERATION))
+    
+    def set_charge_restart_vbat(self, voltage: float) -> None:
+        return self._write_electric(NPB1700Commands.CHG_RST_VBAT, voltage)
+    def get_charge_restart_vbat(self) -> float:
+        return self._read_electric(NPB1700Commands.CHG_RST_VBAT)
+    
+    def set_cc_timeout(self, timeInMinutes: int) -> None:
+        return self._write_electric(NPB1700Commands.CURVE_CC_TIMEOUT, timeInMinutes)
+    def get_cc_timeout(self) -> int:
+        return int(self._read_electric(NPB1700Commands.CURVE_CC_TIMEOUT))
+    
+    def set_cv_timeout(self, timeInMinutes: int) -> None:
+        return self._write_electric(NPB1700Commands.CURVE_CV_TIMEOUT, timeInMinutes)
+    def get_cv_timeout(self) -> int:
+        return int(self._read_electric(NPB1700Commands.CURVE_CV_TIMEOUT))
+    
+    def set_fv_timeout(self, timeInMinutes: int) -> None:
+        return self._write_electric(NPB1700Commands.CURVE_FV_TIMEOUT, timeInMinutes)
+    def get_fv_timeout(self) -> int:
+        return int(self._read_electric(NPB1700Commands.CURVE_FV_TIMEOUT))
     
     def get_constant_current(self) -> float:
         """Get constant charge current"""
         return self._read_electric(NPB1700Commands.READ_IOUT)
     
-    def get_temperature_1 (self) -> float:
-        return self._read_electric(NPB1700Commands.READ_TEMPERATURE_1)
-    
     def get_voltage_current(self) -> float:
         """Get voltage charge current"""
         return self._read_electric(NPB1700Commands.READ_VOUT)
+    
+    def get_temperature_1 (self) -> float:
+        return self._read_electric(NPB1700Commands.READ_TEMPERATURE_1)
+    
+
 
     # Status domain
     def get_fault_status(self) -> Dict[str, Any]:

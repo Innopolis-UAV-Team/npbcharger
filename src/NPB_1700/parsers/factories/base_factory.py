@@ -15,18 +15,29 @@ class ParserFactory:
         from ..system_status import SystemStatusParser
 
         parsers: dict[NPB1700Commands, BaseParser] = {
+
             NPB1700Commands.CURVE_CC: ElectricDataParser(constraints={'min': 10.0, 'max': 50.0}, scaling_factor=0.01),
-            NPB1700Commands.READ_IOUT: ElectricDataParser(constraints={'min': 10.0, 'max': 50.0}, scaling_factor=0.01),
+            NPB1700Commands.READ_IOUT: ElectricDataParser(constraints={'min': 0.0, 'max': 60.0}, scaling_factor=0.01),
+
+            NPB1700Commands.CHG_RST_VBAT: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}, scaling_factor=0.01),
             NPB1700Commands.CURVE_CV: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}, scaling_factor=0.01),
             NPB1700Commands.CURVE_FV: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}, scaling_factor=0.01),
-            NPB1700Commands.READ_VOUT: ElectricDataParser(constraints={'min': 21.0, 'max': 42.0}, scaling_factor=0.01),
-            NPB1700Commands.READ_TEMPERATURE_1: ElectricDataParser(constraints={'min': 0.0, 'max': 52.0}, scaling_factor=0.1),
+            NPB1700Commands.READ_VOUT: ElectricDataParser(constraints={'min': 0.0, 'max': 42.0}, scaling_factor=0.01),
+
+            NPB1700Commands.READ_TEMPERATURE_1: ElectricDataParser(constraints={'min': -40.0, 'max': 110.0}, scaling_factor=0.1),
+            
+            NPB1700Commands.CURVE_CC_TIMEOUT: ElectricDataParser(constraints={'min': 60.0, 'max': 64800.0}, scaling_factor=1),
+            NPB1700Commands.CURVE_CV_TIMEOUT: ElectricDataParser(constraints={'min': 60.0, 'max': 64800.0}, scaling_factor=1),
+            NPB1700Commands.CURVE_FV_TIMEOUT: ElectricDataParser(constraints={'min': 60.0, 'max': 64800.0}, scaling_factor=1),
+           
             NPB1700Commands.OPERATION: ElectricDataParser(constraints={'min': 0.0, 'max': 1.0}, scaling_factor=1, raw_data_len=3),
+
             NPB1700Commands.FAULT_STATUS: FaultStatusParser(),
             NPB1700Commands.CHG_STATUS: ChargeStatusParser(),
+            NPB1700Commands.SYSTEM_STATUS: SystemStatusParser(),
+            
             NPB1700Commands.CURVE_CONFIG: CurveConfigParser(),
             NPB1700Commands.SYSTEM_CONFIG: SystemConfigParser(),
-            NPB1700Commands.SYSTEM_STATUS: SystemStatusParser(),
         }
         
         if command not in parsers:

@@ -6,21 +6,26 @@ npb = NPB1700("/dev/ttyACM0")
 service = NPB1700Service(npb)
 
 #print(service.get_temperature_1())
-print(service.get_operation_status())
+# print(service.get_operation_status())
 print(service.set_operation_status(False))
+# print(service.get_operation_status())
+# print(service.set_operation_status(True))
+
+#print (service.get_charge_restart_vbat())
+print(service.get_operation_status())
 print(service.get_fault_status())
 print(service.get_charge_status())
-print(service.get_operation_status())
 print (service.get_system_config())
+print (service.get_cc_timeout())
+print (service.get_cv_timeout())
+print (service.get_fv_timeout())
+print (service.get_voltage_current())
+print(service.get_constant_current())
 
 
-# print (service.get_voltage_current())
+print(service.get_constant_voltage_curve())
+print(service.get_constant_current_curve())
+print(service.get_float_voltage_curve())
 
-
-# print(service.get_constant_voltage_curve())
-# print(service.get_constant_current_curve())
-# print(service.get_float_voltage_curve())
-
-#print(service.get_constant_voltage())
 #print(service.get_constant_current())
 
