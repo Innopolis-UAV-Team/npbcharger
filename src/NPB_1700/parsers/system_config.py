@@ -5,7 +5,7 @@ SYSTEM_CONFIG = {
     "OPERATION_INIT": {
         "type": FieldType.BITS,
         "mask": 0x06,  # Bits 1-2 of low byte
-        "shift": 0,
+        "shift": 1,
         "name": "Initial operational behavior",
         "description": "Initial operational behavior",
         "values": {
