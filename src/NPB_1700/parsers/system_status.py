@@ -3,8 +3,8 @@ from .factories.status_factory import StatusParserFactory, Severity, Polarity
 
 class SystemStatus(Flag):
     DC_OK = 1 << 1        # Bit 1: The DC output status
-    INITIAL_STATE = 1 << 2        # Bit 2: Initial stage indication
-    EEPER = 1 << 3        # Bit 3: EEPROM access Error
+    INITIAL_STATE = 1 << 5        # Bit 5: Initial stage indication
+    EEPER = 1 << 6        # Bit 6: EEPROM access Error
 
 # Configuration for fault status
 SYSTEM_STATUS_CONFIG = {
