@@ -1,10 +1,7 @@
 import unittest
-import sys
-import os
 from can import Message
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from npbcharger.parsers.electric_data import ElectricDataParser
+from npbcharger.parsers import ElectricDataParser
 
 
 class TestElectricDataParser(unittest.TestCase):

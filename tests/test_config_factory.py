@@ -1,8 +1,4 @@
 import unittest
-import sys
-import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 from npbcharger.parsers.factories.config_factory import ConfigParserFactory, FieldType
 
 class TestConfigFactory(unittest.TestCase):

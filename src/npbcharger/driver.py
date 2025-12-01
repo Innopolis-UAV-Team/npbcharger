@@ -2,8 +2,8 @@ import sys
 from time import sleep
 import can
 from can import BusABC
-from commands import NPB1700Commands
-from exceptions import NPBCommunicationError
+from .commands import NPB1700Commands
+from .exceptions import NPBCommunicationError
 
 
 class NPB1700:
@@ -18,7 +18,7 @@ class NPB1700:
     """ Initializes npb1700 can bus instance & id
     
     :param channel: path to device which connected by CAN to NPB-1700
-    :param tty_baudrate: baudrate of your ... -> CAN adapter
+    :param tty_baudrate: baudrate of your device -> CAN adapter
     :param device_id: id of NPB-1700 read documentation to set correct id
     """
 

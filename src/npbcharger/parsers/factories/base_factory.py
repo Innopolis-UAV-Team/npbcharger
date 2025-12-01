@@ -1,6 +1,5 @@
-# base_factory.py
 from typing import Dict, Optional
-from commands import NPB1700Commands
+from ...commands import NPB1700Commands
 from ..base import BaseParser
 
 

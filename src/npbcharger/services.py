@@ -1,8 +1,8 @@
 from typing import Any, Dict, TypeGuard
-from driver import NPB1700
-from parsers.factories.base_factory import ParserFactory
-from commands import NPB1700Commands
-from parsers.base import BaseParser
+from .driver import NPB1700
+from .parsers import ParserFactory
+from .commands import NPB1700Commands
+from .parsers import BaseParser
 
 
 def _is_config_parser(parser: BaseParser) -> TypeGuard[Any]:

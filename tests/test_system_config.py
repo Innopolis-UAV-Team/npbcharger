@@ -1,10 +1,7 @@
 import unittest
 from can import Message
-import sys
-import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from npbcharger.parsers.system_config import SystemConfigParser
+from npbcharger.parsers import SystemConfigParser
 
 class TestSystemConfigParser(unittest.TestCase):
     

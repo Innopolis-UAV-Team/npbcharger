@@ -1,4 +1,3 @@
-# factories/config_factory.py
 from enum import Enum
 from typing import Any, Dict, Type
 from can import Message
@@ -24,6 +23,7 @@ class ConfigParserFactory:
         """
         
         class DynamicConfigParser(BaseParser):
+            # Add new field
             CONFIG = config
             
             def parse_read(self, msg: Message) -> Dict:

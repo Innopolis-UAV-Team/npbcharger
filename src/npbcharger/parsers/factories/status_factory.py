@@ -1,4 +1,4 @@
-# factories/status_factory.py
+# NOTE: for status parsers: prefer to use flags when there is no bitfields in configuration description.
 from enum import Flag, Enum
 from typing import Any, Dict, List, Type
 from can import Message
@@ -28,6 +28,7 @@ class StatusParserFactory:
         """
         
         class DynamicStatusParser(BaseParser):
+            # Add new fields
             STATUS_METADATA = status_config
             STATUS_ENUM = enum_class
             

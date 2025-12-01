@@ -1,14 +1,11 @@
 import unittest
 from enum import Flag
 from can import Message
-import sys
-import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from npbcharger.parsers.factories.status_factory import StatusParserFactory, Severity, Polarity
+from npbcharger.parsers.factories import StatusParserFactory, Severity, Polarity
 
 class TestStatusFactory(unittest.TestCase):
-    
+
     def setUp(self):
         # Create a test flag enum
         class TestStatus(Flag):
@@ -65,7 +62,7 @@ class TestStatusFactory(unittest.TestCase):
         
         self.assertTrue(result["has_critical"])
         self.assertTrue(result["has_warnings"])
-        self.assertEqual(len(result["active_states"]), 2)
+        self.assertEqual(len(result["active_states"]), 3) # 3 as ready state is low polarity
     
     def test_active_states_metadata(self):
         """Test active states metadata structure"""

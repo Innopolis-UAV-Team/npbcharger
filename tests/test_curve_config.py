@@ -1,10 +1,7 @@
 import unittest
 from can import Message
-import sys
-import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from npbcharger.parsers.curve_config import CurveConfigParser
+from npbcharger.parsers import CurveConfigParser
 
 class TestCurveConfigParser(unittest.TestCase):
     

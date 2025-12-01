@@ -1,5 +1,5 @@
-from driver import NPB1700
-from services import NPB1700Service
+from npbcharger.driver import NPB1700
+from npbcharger.services import NPB1700Service
 
 
 npb = NPB1700("/dev/ttyACM0")

@@ -1,11 +1,7 @@
 import unittest
 from can import Message
-import sys
-import os
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from npbcharger.parsers.charge_status import ChargeStatusParser, ChargeStatus
-from npbcharger.parsers.factories.status_factory import Severity
+from npbcharger.parsers import ChargeStatusParser
+from npbcharger.parsers import ChargeStatus
 
 class TestChargeStatusParser(unittest.TestCase):
     

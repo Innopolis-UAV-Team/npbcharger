@@ -1,7 +1,7 @@
 from typing import Any, Dict, Optional
 from can import Message
 from .base import BaseParser
-from commands import COMMAND_LEN, CURVE_F
+from ..commands import COMMAND_LEN, CURVE_F
 
 class ElectricDataParser(BaseParser):
     scaling_factor: float
