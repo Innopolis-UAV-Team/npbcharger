@@ -19,4 +19,4 @@ See ```examples.py``` to get practical knowlege of most driver aspects.
     * Service layer which encapsulates both;
 
 
-> Note: if you have issues with pycan, you may use pyserial based script in ```src/npbcharger/internal/utils/direct_canusb.py```, which using canusb AT commmands to configure slcan communication. For advanced users only.
+> Note: if you have issues with pycan, you may use pyserial based script in ```src/npbcharger/internal/utils/direct_canusb.py```, which uses canusb AT commmands to configure slcan communication. For advanced users only.
