@@ -4,7 +4,7 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from NPB_1700.parsers.system_status import SystemStatusParser, SystemStatus
+from npbcharger.parsers.system_status import SystemStatusParser, SystemStatus
 
 class TestSystemStatusParser(unittest.TestCase):
     

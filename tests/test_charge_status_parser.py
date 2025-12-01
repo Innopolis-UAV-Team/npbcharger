@@ -4,8 +4,8 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from NPB_1700.parsers.charge_status import ChargeStatusParser, ChargeStatus
-from NPB_1700.parsers.factories.status_factory import Severity
+from npbcharger.parsers.charge_status import ChargeStatusParser, ChargeStatus
+from npbcharger.parsers.factories.status_factory import Severity
 
 class TestChargeStatusParser(unittest.TestCase):
     

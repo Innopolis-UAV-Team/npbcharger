@@ -4,7 +4,7 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from NPB_1700.parsers.curve_config import CurveConfigParser
+from npbcharger.parsers.curve_config import CurveConfigParser
 
 class TestCurveConfigParser(unittest.TestCase):
     

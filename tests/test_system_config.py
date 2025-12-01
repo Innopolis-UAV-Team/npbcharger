@@ -4,7 +4,7 @@ import sys
 import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from NPB_1700.parsers.system_config import SystemConfigParser
+from npbcharger.parsers.system_config import SystemConfigParser
 
 class TestSystemConfigParser(unittest.TestCase):
     
