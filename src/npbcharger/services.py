@@ -52,20 +52,20 @@ class NPB1700Service:
     def get_charge_restart_vbat(self) -> float:
         return self._read_electric(NPB1700Commands.CHG_RST_VBAT)
 
-    def set_cc_timeout(self, timeInMinutes: int) -> None:
-        return self._write_electric(NPB1700Commands.CURVE_CC_TIMEOUT, timeInMinutes)
+    def set_cc_timeout(self, time_in_minutes: int) -> None:
+        return self._write_electric(NPB1700Commands.CURVE_CC_TIMEOUT, time_in_minutes)
 
     def get_cc_timeout(self) -> int:
         return int(self._read_electric(NPB1700Commands.CURVE_CC_TIMEOUT))
 
-    def set_cv_timeout(self, timeInMinutes: int) -> None:
-        return self._write_electric(NPB1700Commands.CURVE_CV_TIMEOUT, timeInMinutes)
+    def set_cv_timeout(self, time_in_minutes: int) -> None:
+        return self._write_electric(NPB1700Commands.CURVE_CV_TIMEOUT, time_in_minutes)
 
     def get_cv_timeout(self) -> int:
         return int(self._read_electric(NPB1700Commands.CURVE_CV_TIMEOUT))
 
-    def set_fv_timeout(self, timeInMinutes: int) -> None:
-        return self._write_electric(NPB1700Commands.CURVE_FV_TIMEOUT, timeInMinutes)
+    def set_fv_timeout(self, time_in_minutes: int) -> None:
+        return self._write_electric(NPB1700Commands.CURVE_FV_TIMEOUT, time_in_minutes)
 
     def get_fv_timeout(self) -> int:
         return int(self._read_electric(NPB1700Commands.CURVE_FV_TIMEOUT))
