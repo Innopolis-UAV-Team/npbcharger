@@ -36,7 +36,7 @@ class NPB1700:
             print(
                 f"An unexpected error occurred while creating NPB1700 instance: {e}")
             sys.exit(1)
-    
+
     def __enter__(self):
         """Context manager entry point."""
         return self
@@ -48,7 +48,7 @@ class NPB1700:
             self.__can_bus.shutdown()
         # Return False to propagate any exceptions that occurred
         return False
-    
+
     def spin(self, msg: can.Message, timeout: float, have_response: bool = True) -> can.Message:
         self.__can_bus.send(msg)
         # For debug purposes

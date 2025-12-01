@@ -28,9 +28,9 @@ with NPB1700("/dev/ttyACM0") as npb_default:
     print (service_default.get_system_status())
 
     # Write into config. For setting config values refer to docs - fields have same name
-    service_default.set_system_config({"EEP_OFF":True})
+    # service_default.set_system_config({"EEP_OFF":True})
     # For multivalue fields in config provide integer corresponding to bin code (refer to manual)
-    service_default.set_curve_config({"TCS":1})
+    # service_default.set_curve_config({"TCS":1})
 
     # Read real time voltage & amperage
     print (service_default.get_voltage_current())
@@ -43,6 +43,7 @@ with NPB1700("/dev/ttyACM0") as npb_default:
 
     # Set curve values
     # Set amperage of curve to 15 A
-    service_default.set_constant_current_curve(15)
+    # service_default.set_constant_current_curve(15)
     # Set voltage of curve to 32 V
-    service_default.set_constant_voltage_curve(32)
+    # service_default.set_constant_voltage_curve(32)
+    print(service_default.get_model_id())

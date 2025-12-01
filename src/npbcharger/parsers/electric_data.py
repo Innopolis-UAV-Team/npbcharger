@@ -19,7 +19,6 @@ class ElectricDataParser(BaseParser):
         raw_data_address = msg.data
         if len(raw_data_address) < self.raw_data_len:
             raise ValueError("Fault status data too short")
-
         raw_data = raw_data_address[2:self.raw_data_len]
 
         raw_value = int.from_bytes(raw_data, byteorder='little')

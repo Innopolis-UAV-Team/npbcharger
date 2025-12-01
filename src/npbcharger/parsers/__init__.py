@@ -6,3 +6,4 @@ from .charge_status import ChargeStatusParser, ChargeStatus
 from .system_config import SystemConfigParser
 from .system_status import SystemStatusParser, SystemStatus
 from .base import BaseParser
+from .bytes_forward import BytesForward

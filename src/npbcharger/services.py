@@ -81,6 +81,13 @@ class NPB1700Service:
     def get_temperature_1(self) -> float:
         return self._read_electric(NPB1700Commands.READ_TEMPERATURE_1)
 
+    def get_model_id(self) -> str:
+        low = self._read_bytes(NPB1700Commands.MFR_MODEL_B0B5)
+        high = self._read_bytes(NPB1700Commands.MFR_MODEL_B6B11)
+        full = low + high
+        serial_number = full.decode('utf-8')
+        return (serial_number)
+
     # Status domain
 
     def get_fault_status(self) -> Dict[str, Any]:
@@ -114,6 +121,11 @@ class NPB1700Service:
 
     # Private helpers
     def _read_electric(self, command: NPB1700Commands) -> float:
+        response = self.driver.read(command)
+        parser = self.parser_factory.get_parser(command)
+        return parser.parse_read(response)
+
+    def _read_bytes(self, command: NPB1700Commands) -> bytearray:
         response = self.driver.read(command)
         parser = self.parser_factory.get_parser(command)
         return parser.parse_read(response)
