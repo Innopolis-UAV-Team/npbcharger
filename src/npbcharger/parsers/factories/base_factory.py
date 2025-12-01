@@ -5,9 +5,10 @@ from ..base import BaseParser
 
 class ParserFactory:
     _parsers: Optional[Dict[NPB1700Commands, BaseParser]] = None
+
     @classmethod
     def get_parser(cls, command: NPB1700Commands) -> BaseParser:
-        
+
         if cls._parsers is None:
             # Perform imports and creation (Lazy Loading)
             # Local imports prevent circular dependency errors during module load
@@ -28,17 +29,17 @@ class ParserFactory:
                 NPB1700Commands.READ_VOUT: ElectricDataParser(constraints={'min': 0.0, 'max': 42.0}, scaling_factor=0.01),
 
                 NPB1700Commands.READ_TEMPERATURE_1: ElectricDataParser(constraints={'min': -40.0, 'max': 110.0}, scaling_factor=0.1),
-                
+
                 NPB1700Commands.CURVE_CC_TIMEOUT: ElectricDataParser(constraints={'min': 60.0, 'max': 64800.0}, scaling_factor=1),
                 NPB1700Commands.CURVE_CV_TIMEOUT: ElectricDataParser(constraints={'min': 60.0, 'max': 64800.0}, scaling_factor=1),
                 NPB1700Commands.CURVE_FV_TIMEOUT: ElectricDataParser(constraints={'min': 60.0, 'max': 64800.0}, scaling_factor=1),
-            
+
                 NPB1700Commands.OPERATION: ElectricDataParser(constraints={'min': 0.0, 'max': 1.0}, scaling_factor=1, raw_data_len=3),
 
                 NPB1700Commands.FAULT_STATUS: FaultStatusParser(),
                 NPB1700Commands.CHG_STATUS: ChargeStatusParser(),
                 NPB1700Commands.SYSTEM_STATUS: SystemStatusParser(),
-                
+
                 NPB1700Commands.CURVE_CONFIG: CurveConfigParser(),
                 NPB1700Commands.SYSTEM_CONFIG: SystemConfigParser(),
             }

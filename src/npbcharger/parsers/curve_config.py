@@ -9,13 +9,13 @@ CURVE_CONFIG = {
         "description": "Constant voltage stage timeout indication enable"
     },
     "CVTOE": {
-        "type": FieldType.FLAG, 
+        "type": FieldType.FLAG,
         "bit": 9,  # Bit 1 of high byte
         "name": "Constant Current Timeout Enable",
         "description": "Constant current stage timeout indication enable"
     },
     "FVTOE": {
-        "type": FieldType.FLAG, 
+        "type": FieldType.FLAG,
         "bit": 10,  # Bit 1 of high byte
         "name": "Floating Voltage Timeout Enable",
         "description": "Floating voltage stage timeout indication enable"
@@ -23,7 +23,7 @@ CURVE_CONFIG = {
     "RSTE": {
         "type": FieldType.FLAG,
         "bit": 11,  # Bit 3 of high byte
-        "name": "Restart Charge Enable", 
+        "name": "Restart Charge Enable",
         "description": "Restart to charge after the battery is full enable"
     },
     "CVTSSE": {
@@ -32,8 +32,8 @@ CURVE_CONFIG = {
         "name": "CV Timeout Status Selection",
         "description": "CV Timeout Status Selection Enable"
     },
-    
-    # Low byte fields  
+
+    # Low byte fields
     "CUVS": {
         "type": FieldType.BITS,
         "mask": 0x03,  # Bits 0-1 of low byte
@@ -42,7 +42,7 @@ CURVE_CONFIG = {
         "description": "Charge curve setting",
         "values": {
             0: "Customized charging curve",
-            1: "Preset charging curve #1", 
+            1: "Preset charging curve #1",
             2: "Preset charging curve #2",
             3: "Preset charging curve #3"
         }
@@ -56,7 +56,7 @@ CURVE_CONFIG = {
         "values": {
             0: "Disabled",
             1: "-3mV/°C/cell",
-            2: "-4mV/°C/cell", 
+            2: "-4mV/°C/cell",
             3: "-5mV/°C/cell"
         }
     },

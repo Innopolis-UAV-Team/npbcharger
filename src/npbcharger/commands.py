@@ -2,6 +2,7 @@ import enum
 CURVE_F = 0.01
 COMMAND_LEN = 2
 
+
 class NPB1700Commands(enum.Enum):
     """CAN Command Codes for Mean Well NPB-1700 Series in Little Endian Format.
         NOTE: Commented commands work only in PSU mode. Since NPB series may work only in charger mode they are irrelevant

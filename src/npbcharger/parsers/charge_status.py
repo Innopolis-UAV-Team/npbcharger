@@ -1,6 +1,7 @@
 from enum import Flag
 from .factories.status_factory import StatusParserFactory, Severity, Polarity
 
+
 class ChargeStatus(Flag):
     """Charging status flags"""
     NTCER = 1 << 10
@@ -14,6 +15,7 @@ class ChargeStatus(Flag):
     FVM = 1 << 3
     WAKEUP_STOP = 1 << 6
 
+
 # Configuration for charge status
 CHARGE_STATUS_CONFIG = {
     ChargeStatus.NTCER: {
@@ -23,14 +25,14 @@ CHARGE_STATUS_CONFIG = {
         "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.BTNC: {
-        "name": "No Battery", 
+        "name": "No Battery",
         "description": "Battery not detected",
         "severity": Severity.CRITICAL,
         "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.CCTOF: {
         "name": "CC Mode Timeout",
-        "description": "Constant current charging timed out", 
+        "description": "Constant current charging timed out",
         "severity": Severity.WARNING,
         "polarity": Polarity.ACTIVE_HIGH,
     },
@@ -41,7 +43,7 @@ CHARGE_STATUS_CONFIG = {
         "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.FVTOF: {
-        "name": "Float Mode Timeout", 
+        "name": "Float Mode Timeout",
         "description": "Float charging timed out",
         "severity": Severity.WARNING,
         "polarity": Polarity.ACTIVE_HIGH,
@@ -59,7 +61,7 @@ CHARGE_STATUS_CONFIG = {
         "polarity": Polarity.ACTIVE_HIGH,
     },
     ChargeStatus.CVM: {
-        "name": "Constant Voltage Mode", 
+        "name": "Constant Voltage Mode",
         "description": "Charging with constant voltage",
         "severity": Severity.INFO,
         "polarity": Polarity.ACTIVE_HIGH,
@@ -72,7 +74,7 @@ CHARGE_STATUS_CONFIG = {
     },
     ChargeStatus.WAKEUP_STOP: {
         "name": "Wakeup Active",
-        "description": "Battery wakeup sequence in progress", 
+        "description": "Battery wakeup sequence in progress",
         "severity": Severity.INFO,
         "polarity": Polarity.ACTIVE_HIGH,
     }
@@ -80,7 +82,7 @@ CHARGE_STATUS_CONFIG = {
 
 # Create the parser using factory
 ChargeStatusParser = StatusParserFactory.create_parser(
-    "ChargeStatusParser", 
-    CHARGE_STATUS_CONFIG, 
+    "ChargeStatusParser",
+    CHARGE_STATUS_CONFIG,
     ChargeStatus
 )
