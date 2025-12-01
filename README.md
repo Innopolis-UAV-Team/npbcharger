@@ -1,15 +1,15 @@
 # NPB-1700
-Python written driver to contact NPB-1700 series battery charger produced by MEAN WELL
+Python written driver to contact NPB-1700 series battery charger produced by MEAN WELL.
 
 ## Service layer API:
 
 ![What implemented](/readmeHelpers/implemented_commands.png)
-Green: done;
-Red: doesn't work on NPB-1700 series as it has only charger mode;
-Not marked: not done yet;  
+* Green: done;
+* Red: doesn't work on NPB-1700 series as it has only charger mode;
+* Not marked: not done yet;  
 
 ## How to use?
-See ```examples.py``` to get practical knowlege of most driver aspects
+See ```examples.py``` to get practical knowlege of most driver aspects.
 
 ## Implementation details:
 
