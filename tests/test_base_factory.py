@@ -3,8 +3,9 @@ import unittest
 from npbcharger.commands import NPB1700Commands
 from npbcharger.parsers import ElectricDataParser, ParserFactory, FaultStatusParser
 
+
 class TestParserFactory(unittest.TestCase):
-    
+
     def setUp(self):
         # Reset the singleton cache before each test
         ParserFactory._parsers = None
@@ -15,16 +16,17 @@ class TestParserFactory(unittest.TestCase):
         on repeated calls. This confirms the lazy creation works
         """
         command = NPB1700Commands.CURVE_CC
-        
+
         # create the instance
         parser1 = ParserFactory.get_parser(command)
-        
+
         # retrieve from cache
         parser2 = ParserFactory.get_parser(command)
-        
+
         # check that they are the exact same object in memory
         # assertIs checks the similarity of objects
-        self.assertIs(parser1, parser2, "Factory failed to cache the parser instance")
+        self.assertIs(parser1, parser2,
+                      "Factory failed to cache the parser instance")
 
     def test_correct_class_mapping(self):
         """Verify that commands return the expected parser classes"""
@@ -46,7 +48,7 @@ class TestParserFactory(unittest.TestCase):
         # Check CURVE_CC (Min 10, Max 50)
         p_cc = ParserFactory.get_parser(NPB1700Commands.CURVE_CC)
         self.assertEqual(p_cc.constraints['max'], 50.0)
-        
+
         # Should be different objects
         self.assertIsNot(p_iout, p_cc)
 
@@ -57,13 +59,14 @@ class TestParserFactory(unittest.TestCase):
             class FakeCommand:
                 name = "FAKE"
                 value = b'\xFF\xFF'
-            
+
             ParserFactory.get_parser(FakeCommand())
             self.fail("Should have raised ValueError")
         except ValueError:
-            pass # Success
+            pass  # Success
         except Exception as e:
             pass
+
 
 if __name__ == '__main__':
     unittest.main()
