@@ -20,6 +20,7 @@ class NPB1700:
     __bitrate: int = 250000
     __device_id: int = 0x000C0103
     __can_bus: BusABC
+    is_broadcast: bool = False
 
     """ Initializes npb1700 can bus instance & id
     
@@ -33,6 +34,11 @@ class NPB1700:
         self.__tty_baudrate = tty_baudrate
         self.__device_id = device_id
         self.__interface = interface
+
+        # Handle broadcast drivers
+        addressMask: int = 0x000000FF
+        self.is_broadcast = (self.__device_id & addressMask) == 0xFF
+
         try:
             self.__can_bus = can.Bus(interface=self.__interface, channel=self.__channel,
                                      ttyBaudrate=self.__tty_baudrate, bitrate=self.__bitrate)
@@ -77,10 +83,9 @@ class NPB1700:
 
     def read(self, command: NPB1700Commands) -> can.Message:
         can_msg: can.Message = self._create_msg(command)
-
         # Send message and check if it failed
         # Max. response time (PSU/CHG to Controller): 5mSec
-        rec_msg: can.Message = self.spin(can_msg)
+        rec_msg: can.Message = self.spin(can_msg, not(self.is_broadcast))
         return rec_msg
 
     def write(self, command: NPB1700Commands, params: bytearray) -> can.Message:
