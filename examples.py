@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # NOTE: it's better to use NPB1700 with "with" so context manager of driver
     # would shutdown slcan on it's own
     # But you still may use it without bus.shutdown()
-    with NPB1700(channel=args.channel, interface=args.iface, device_id=0x000C01FF) as npb_default:
+    with NPB1700(channel=args.channel, interface=args.iface) as npb_default:
         service_default = NPB1700Service(npb_default)
 
         # Read configs
