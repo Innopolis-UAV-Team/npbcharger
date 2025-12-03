@@ -1,0 +1,10 @@
+# Virtual env (different variations)
+.venv
+env/
+venv/
+
+# Python compilaiton artifacts
+__pycache__
+
+# Package creation artifacts
+*.egg-info

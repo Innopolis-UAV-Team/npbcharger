@@ -1,0 +1,23 @@
+# NPB-1700-24/pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "npbcharger"
+version = "0.1.0"
+authors = [
+    { name="Ilia Kliantsevich", email="iliawork112005@gmail.com" },
+]
+description = "A driver and service layer for the Mean Well NPB-1700 CAN bus charger."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pyserial",
+    "python-can"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["npbcharger", "npbcharger.parsers", "npbcharger.parsers.factories"]
