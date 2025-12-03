@@ -14,11 +14,8 @@ description = "A driver and service layer for the Mean Well NPB-1700 CAN bus cha
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-    "packaging",
     "pyserial",
-    "python-can",
-    "typing_extensions",
-    "wrapt",
+    "python-can"
 ]
 
 [tool.setuptools]
