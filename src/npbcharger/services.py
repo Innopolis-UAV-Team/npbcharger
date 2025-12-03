@@ -1,5 +1,6 @@
+from asyncio.log import logger
 from functools import wraps
-from typing import Any, Dict, Callable
+from typing import Any, Dict, Callable, Optional
 from .driver import NPB1700
 from .parsers import ParserFactory
 from .commands import NPB1700Commands
@@ -15,18 +16,25 @@ def command_reader(command: NPB1700Commands, method_type: str = 'electric'):
          # leaving body as it is and saving the access to argument through *args, **kwargs
         @wraps(func)
         def wrapper(self: 'NPB1700Service', *args, **kwargs):
-            if method_type == 'electric':
-                return self._read_electric(command)
-            elif method_type == 'bytes':
-                # For byte reads that need decoding
-                raw = self._read_bytes(command)
-                return func(self, raw, *args, **kwargs)
-            elif method_type == 'status':
-                return self._read_status(command)
-            elif method_type == 'config':
-                return self._read_config(command)
-            else:
-                raise ValueError(f"Unknown read method type: {method_type}")
+            if self.driver.is_broadcast: 
+                logger.warning(
+                    f"Skipping read for command '{command.name}': "
+                    "Cannot read when Driver is in Broadcast mode."
+                )
+                return None
+            if not(self.driver.is_broadcast):
+                if method_type == 'electric':
+                    return self._read_electric(command)
+                elif method_type == 'bytes':
+                    # For byte reads that need decoding
+                    raw = self._read_bytes(command)
+                    return func(self, raw, *args, **kwargs)
+                elif method_type == 'status':
+                    return self._read_status(command)
+                elif method_type == 'config':
+                    return self._read_config(command)
+                else:
+                    raise ValueError(f"Unknown read method type: {method_type}")
         return wrapper
     return decorator
 
@@ -59,7 +67,7 @@ class NPB1700Service:
         pass
 
     @command_reader(NPB1700Commands.CURVE_CC)
-    def get_constant_current_curve(self) -> float:
+    def get_constant_current_curve(self) -> Optional[float]:
         """Get constant charge current"""
         pass
 
@@ -69,7 +77,7 @@ class NPB1700Service:
         pass
 
     @command_reader(NPB1700Commands.CURVE_CV)
-    def get_constant_voltage_curve(self) -> float:
+    def get_constant_voltage_curve(self) -> Optional[float]:
         """Get constant charge voltage"""
         pass
 
@@ -78,50 +86,64 @@ class NPB1700Service:
         pass
 
     @command_reader(NPB1700Commands.CURVE_FV)
-    def get_float_voltage_curve(self) -> float:
+    def get_float_voltage_curve(self) -> Optional[float]:
         pass
 
     @command_writer(NPB1700Commands.CHG_RST_VBAT)
     def set_charge_restart_vbat(self, voltage: float) -> None: pass
 
     @command_reader(NPB1700Commands.CHG_RST_VBAT)
-    def get_charge_restart_vbat(self) -> float: pass
+    def get_charge_restart_vbat(self) -> Optional[float]: pass
 
+    # Timeouts
+    @command_reader(NPB1700Commands.CURVE_CC_TIMEOUT)
+    def get_cc_timeout(self) -> Optional[int]: pass
 
     @command_writer(NPB1700Commands.CURVE_CC_TIMEOUT)
     def set_cc_timeout(self, time_in_minutes: int) -> None: pass
 
-    @command_reader(NPB1700Commands.CURVE_CC_TIMEOUT)
-    def get_cc_timeout(self) -> int: pass
+    @command_reader(NPB1700Commands.CURVE_CV_TIMEOUT)
+    def get_cv_timeout(self) -> Optional[int]: pass
+
+    @command_writer(NPB1700Commands.CURVE_CV_TIMEOUT)
+    def set_cv_timeout(self, time_in_minutes: int) -> None: pass
+
+    @command_reader(NPB1700Commands.CURVE_FV_TIMEOUT)
+    def get_fv_timeout(self) -> Optional[int]: pass
+
+    @command_writer(NPB1700Commands.CURVE_FV_TIMEOUT)
+    def set_fv_timeout(self, time_in_minutes: int) -> None: pass
+
+    
 
     @command_reader(NPB1700Commands.READ_IOUT)
-    def get_constant_current(self) -> float: pass
+    def get_constant_current(self) -> Optional[float]: pass
 
     @command_reader(NPB1700Commands.READ_VOUT)
-    def get_voltage_current(self) -> float: pass
+    def get_voltage_current(self) -> Optional[float]: pass
 
     @command_reader(NPB1700Commands.READ_TEMPERATURE_1)
-    def get_temperature_1(self) -> float: pass
+    def get_temperature_1(self) -> Optional[float]: pass
 
     # Status Domain
     @command_reader(NPB1700Commands.FAULT_STATUS, method_type='status')
-    def get_fault_status(self) -> Dict[str, Any]: pass
+    def get_fault_status(self) -> Optional[Dict[str, Any]]: pass
 
     @command_reader(NPB1700Commands.CHG_STATUS, method_type='status')
-    def get_charge_status(self) -> Dict[str, Any]: pass
+    def get_charge_status(self) -> Optional[Dict[str, Any]]: pass
 
     @command_reader(NPB1700Commands.SYSTEM_STATUS, method_type='status')
-    def get_system_status(self) -> Dict[str, Any]: pass
+    def get_system_status(self) -> Optional[Dict[str, Any]]: pass
 
     # Configuration Domain
     @command_reader(NPB1700Commands.CURVE_CONFIG, method_type='config')
-    def get_curve_config(self) -> Dict[str, Any]: pass
+    def get_curve_config(self) -> Optional[Dict[str, Any]]: pass
 
     @command_writer(NPB1700Commands.CURVE_CONFIG, method_type='config')
     def set_curve_config(self, config_fields: Dict[str, Any]) -> None: pass
 
     @command_reader(NPB1700Commands.SYSTEM_CONFIG, method_type='config')
-    def get_system_config(self) -> Dict[str, Any]: pass
+    def get_system_config(self) -> Optional[Dict[str, Any]]: pass
 
     @command_writer(NPB1700Commands.SYSTEM_CONFIG, method_type='config')
     def set_system_config(self, config_fields: Dict[str, Any]) -> None: pass
@@ -141,32 +163,43 @@ class NPB1700Service:
 
     # Private Helpers
     def _read_electric(self, command: NPB1700Commands) -> float:
-        response = self.driver.read(command)
+        response = self.driver.read(command) 
         parser = self.parser_factory.get_parser(command)
         return parser.parse_read(response)
+
 
     def _read_bytes(self, command: NPB1700Commands) -> bytearray:
         response = self.driver.read(command)
         parser = self.parser_factory.get_parser(command)
         return parser.parse_read(response)
 
-    def _write_electric(self, command: NPB1700Commands, value: float) -> None:
-        parser = self.parser_factory.get_parser(command)
-        to_send = parser.parse_write(value)
-        self.driver.write(command, to_send)
 
     def _read_status(self, command: NPB1700Commands) -> Dict[str, Any]:
         response = self.driver.read(command)
         parser = self.parser_factory.get_parser(command)
         return parser.parse_read(response)
 
+
     def _read_config(self, command: NPB1700Commands) -> Dict[str, Any]:
         response = self.driver.read(command)
         parser = self.parser_factory.get_parser(command)
         return parser.parse_read(response)
 
+
     def _write_config(self, command: NPB1700Commands, config_data: Dict[str, Any]) -> None:
         parser = self.parser_factory.get_parser(command)
+        
+        if (self.driver.is_broadcast):
+            logger.warning(
+                    f"Skipping read for command '{command.name}': "
+                    "Cannot read when Driver is in Broadcast mode."
+                    "Note: called from write_config. As driver can't read current config from"
+                    "all npb devices on line it will reset all values of config except specified in write"
+                )
+            to_send = parser.parse_write(config_data)
+            self.driver.write(command, to_send)
+            return
+    
         current_config = self._read_config(NPB1700Commands.CURVE_CONFIG)
         current_raw = current_config["raw_value"]
         
@@ -174,4 +207,9 @@ class NPB1700Service:
              raise TypeError(f"Parser for {command} does not support partial updates")
              
         to_send = parser.parse_write_update(config_data, current_raw)
+        self.driver.write(command, to_send)
+
+    def _write_electric(self, command: NPB1700Commands, value: float) -> None:
+        parser = self.parser_factory.get_parser(command)
+        to_send = parser.parse_write(value)
         self.driver.write(command, to_send)
