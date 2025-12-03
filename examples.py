@@ -1,23 +1,35 @@
 #!/usr/bin/env python3
-
+import argparse
+import os
 from npbcharger.driver import NPB1700
 from npbcharger.services import NPB1700Service
 
 
-if __name__ == "__main__":
-    # Example: create service with custom address
-    with NPB1700(channel="/dev/ttyACM0", interface='slcan', device_id=0x000C0100) as npb_custom:
-        serivce_custom = NPB1700Service(npb_custom)
 
-    # Example: create service which will broadcast messages
-    with NPB1700(channel="/dev/ttyACM0", interface='slcan', device_id=0x000C01FF) as npb_broadcast:
-        serivce_broadcast = NPB1700Service(npb_broadcast)
+if __name__ == "__main__":
+    # Initialise usging argparse
+    default_channel = "COM3@1000000" if os.name == "nt" else "/dev/ttyACM0"
+    parser = argparse.ArgumentParser(description="Mean Well NPB-1700 Control Tool")
+    parser.add_argument(
+        "--channel",
+        type=str,
+        default=default_channel,
+        help=f"Channel for NPB1700 (default: {default_channel})",
+    )
+    parser.add_argument(
+        "--iface",
+        type=str,
+        default='slcan',
+        help=f"Interface for NPB1700 (default: {default_channel})",
+    )
+
+    args = parser.parse_args()
 
     # Example: create service with default address
     # NOTE: it's better to use NPB1700 with "with" so context manager of driver
     # would shutdown slcan on it's own
     # But you still may use it without bus.shutdown()
-    with NPB1700("/dev/ttyACM0", interface='slcan') as npb_default:
+    with NPB1700(channel=args.channel, interface=args.iface, device_id=0x000C01FF) as npb_default:
         service_default = NPB1700Service(npb_default)
 
         # Read configs

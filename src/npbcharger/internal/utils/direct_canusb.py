@@ -64,7 +64,7 @@ def main():
         # Command: little endian. See docs for command codes
         # CANUSB Format: Tiiiiiiiildd... -> T000C0103[command len (2) + params len][params]
         request_id = "000C0103"
-        data_cmd = "B900"  # Одинаковая команда
+        data_cmd = "0000"  # Одинаковая команда
         dlc = "2"
         request_cmd = f"T{request_id}{dlc}{data_cmd}"
 
@@ -77,7 +77,7 @@ def main():
 
         # --- Listen for Reply ---
         print("Listening for reply...")
-        reply = read_response(ser, timeout=1.0)  # Listen for 1 sec for reply
+        reply = read_response(ser, timeout=2.0)  # Listen for 1 sec for reply
         if reply:
             print(f"Received Raw Reply: {repr(reply)}")
             # Parse reply: Expected format Tiiiiiiiilldd... where l=dlc, dd=data
