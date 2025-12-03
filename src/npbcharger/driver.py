@@ -11,6 +11,8 @@ MAX_RESPONCE_TIME: float = 0.005
 # Min. request period (Controller to PSU/CHG): 20mSec
 MIN_REQUEST_PERIOD: float = 0.02
 
+# Min. packet margin time (Controller to PSU/CHG): 5mSec
+MIN_MARGIN_TIME: float = 0.005
 
 class NPB1700:
     # Private can communication related
@@ -71,9 +73,10 @@ class NPB1700:
             if rec_msg is not None:
                 # For debug purposes
                 # print(f"Message received on {self.__can_bus.channel_info}")
+                sleep(MIN_MARGIN_TIME)
                 return rec_msg
             raise NPBCommunicationError
-        sleep(MIN_REQUEST_PERIOD)
+        sleep(MIN_MARGIN_TIME)
         return can.Message()
 
     def _create_msg(self, command: NPB1700Commands, params: bytearray = bytearray()) -> can.Message:
