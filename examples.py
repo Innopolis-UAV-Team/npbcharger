@@ -6,18 +6,18 @@ from npbcharger.services import NPB1700Service
 
 if __name__ == "__main__":
     # Example: create service with custom address
-    with NPB1700(channel="/dev/ttyACM0", device_id=0x000C0100) as npb_custom:
+    with NPB1700(channel="/dev/ttyACM0", interface='slcan', device_id=0x000C0100) as npb_custom:
         serivce_custom = NPB1700Service(npb_custom)
 
     # Example: create service which will broadcast messages
-    with NPB1700(channel="/dev/ttyACM0", device_id=0x000C01FF) as npb_broadcast:
+    with NPB1700(channel="/dev/ttyACM0", interface='slcan', device_id=0x000C01FF) as npb_broadcast:
         serivce_broadcast = NPB1700Service(npb_broadcast)
 
     # Example: create service with default address
     # NOTE: it's better to use NPB1700 with "with" so context manager of driver
     # would shutdown slcan on it's own
     # But you still may use it without bus.shutdown()
-    with NPB1700("/dev/ttyACM0") as npb_default:
+    with NPB1700("/dev/ttyACM0", interface='slcan') as npb_default:
         service_default = NPB1700Service(npb_default)
 
         # Read configs

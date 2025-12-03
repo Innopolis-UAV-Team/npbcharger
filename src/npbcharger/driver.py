@@ -14,7 +14,7 @@ MIN_REQUEST_PERIOD: float = 0.025
 
 class NPB1700:
     # Private can communication related
-    __interface: str = "slcan"
+    __interface: str
     __channel: str = "/dev/ttyACMx"
     __tty_baudrate: int = 1000000
     __bitrate: int = 250000
@@ -28,10 +28,11 @@ class NPB1700:
     :param device_id: id of NPB-1700 read documentation to set correct id
     """
 
-    def __init__(self, channel: str, tty_baudrate: int = 1000000, device_id: int = 0x000C0103):
+    def __init__(self, channel: str, interface: str, tty_baudrate: int = 1000000 , device_id: int = 0x000C0103):
         self.__channel = channel
         self.__tty_baudrate = tty_baudrate
         self.__device_id = device_id
+        self.__interface = interface
         try:
             self.__can_bus = can.Bus(interface=self.__interface, channel=self.__channel,
                                      ttyBaudrate=self.__tty_baudrate, bitrate=self.__bitrate)
