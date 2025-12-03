@@ -5,6 +5,12 @@ from can import BusABC
 from .commands import NPB1700Commands
 from .exceptions import NPBCommunicationError
 
+# Max. response time (PSU/CHG to Controller): 5mSec
+MAX_RESPONCE_TIME: float = 0.006
+
+# Min. request period (Controller to PSU/CHG): 20mSec
+MIN_REQUEST_PERIOD: float = 0.025
+
 
 class NPB1700:
     # Private can communication related
@@ -49,18 +55,18 @@ class NPB1700:
         # Return False to propagate any exceptions that occurred
         return False
 
-    def spin(self, msg: can.Message, timeout: float, have_response: bool = True) -> can.Message:
+    def spin(self, msg: can.Message, have_response: bool = True) -> can.Message:
         self.__can_bus.send(msg)
         # For debug purposes
         # print(f"Message sent on {self.__can_bus.channel_info}")
         if have_response:
-            rec_msg: can.Message | None = self.__can_bus.recv(timeout=2.0)
+            rec_msg: can.Message | None = self.__can_bus.recv(timeout=MAX_RESPONCE_TIME)
             if rec_msg is not None:
                 # For debug purposes
                 # print(f"Message received on {self.__can_bus.channel_info}")
                 return rec_msg
-            return can.Message(error_state_indicator=True)
-        sleep(timeout)
+            raise NPBCommunicationError
+        sleep(MIN_REQUEST_PERIOD)
         return can.Message()
 
     def _create_msg(self, command: NPB1700Commands, params: bytearray = bytearray()) -> can.Message:
@@ -72,14 +78,14 @@ class NPB1700:
         can_msg: can.Message = self._create_msg(command)
 
         # Send message and check if it failed
-        rec_msg: can.Message = self.spin(can_msg, 0.01)
-        if rec_msg.error_state_indicator:
-            raise NPBCommunicationError
+        # Max. response time (PSU/CHG to Controller): 5mSec
+        rec_msg: can.Message = self.spin(can_msg)
         return rec_msg
 
     def write(self, command: NPB1700Commands, params: bytearray) -> can.Message:
         can_msg: can.Message = self._create_msg(command, params)
-        rec_msg: can.Message = self.spin(can_msg, 0.01, False)
+        # Max. response time (PSU/CHG to Controller): 5mSec
+        rec_msg: can.Message = self.spin(can_msg, False)
         if rec_msg.error_state_indicator:
             raise NPBCommunicationError
         return rec_msg
