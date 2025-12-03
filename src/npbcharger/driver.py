@@ -6,10 +6,10 @@ from .commands import NPB1700Commands
 from .exceptions import NPBCommunicationError
 
 # Max. response time (PSU/CHG to Controller): 5mSec
-MAX_RESPONCE_TIME: float = 0.006
+MAX_RESPONCE_TIME: float = 0.005
 
 # Min. request period (Controller to PSU/CHG): 20mSec
-MIN_REQUEST_PERIOD: float = 0.025
+MIN_REQUEST_PERIOD: float = 0.02
 
 
 class NPB1700:
