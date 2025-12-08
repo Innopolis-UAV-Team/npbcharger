@@ -8,3 +8,8 @@ __pycache__
 
 # Package creation artifacts
 *.egg-info
+
+build/
+dist/
+coverage.xml
+.coverage

@@ -1,12 +1,12 @@
 # NPB-1700-24/pyproject.toml
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "setuptools-scm>=8", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "npbcharger"
-version = "0.1.0"
+dynamic = ["version"]
 authors = [
     { name="Ilia Kliantsevich", email="iliawork112005@gmail.com" },
 ]
@@ -20,4 +20,13 @@ dependencies = [
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["npbcharger", "npbcharger.parsers", "npbcharger.parsers.factories"]
+#packages = ["npbcharger", "npbcharger.parsers", "npbcharger.parsers.factories"]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"
+local_scheme   = "node-and-date"
+fallback_version = "0.0.0"
