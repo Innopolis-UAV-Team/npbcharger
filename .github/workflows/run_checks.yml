@@ -63,3 +63,32 @@ jobs:
       run: |
         echo "Running all unit tests..."
         python -m unittest discover tests -v
+
+  deploy:
+    name: Deploy to PyPI on tag
+    needs:
+      - lint
+      - test
+    # Only run on tag pushes, not on PRs or normal branch pushes
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build & twine
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build and upload to PyPI
+        env:
+          TWINE_USERNAME: "__token__"
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: bash scripts/deploy.sh --pypi

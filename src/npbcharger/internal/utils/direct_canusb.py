@@ -63,8 +63,8 @@ def main():
         # Request ID: 0x000C0103
         # Command: little endian. See docs for command codes
         # CANUSB Format: Tiiiiiiiildd... -> T000C0103[command len (2) + params len][params]
-        request_id = "000C01FF"
-        data_cmd = "0000"
+        request_id = "000C0103"
+        data_cmd = "0000"  # Одинаковая команда
         dlc = "2"
         request_cmd = f"T{request_id}{dlc}{data_cmd}"
 

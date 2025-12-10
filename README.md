@@ -1,4 +1,5 @@
-# NPB-1700
+# NPB-1700 [![PyPI](https://img.shields.io/pypi/v/npbcharger?logo=pypi&style=flat)](https://pypi.org/project/npbcharger/)
+
 Python written driver to contact NPB-1700 series battery charger produced by MEAN WELL.
 
 ## Service layer API:
