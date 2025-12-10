@@ -3,6 +3,8 @@ name: CI Checks
 on:
   push:
     branches: [ main, development ]
+    tags:
+      - 'v*'
   pull_request:
     branches: [ main ]
 
